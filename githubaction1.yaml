@@ -1,0 +1,28 @@
+name: WIF App registration with federation
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
+on:
+  push:
+    branches:
+    - main
+env: 
+  LOCATION: "northeurope"
+  RESOURCE_GROUP_NAME: "WIF-AppReg-Federation"
+
+jobs:
+    job01:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: Azure/login@v1
+          with:
+            client-id: a5f616e7-bde5-4eea-8a72-0fc656ed265c
+            tenant-id: cba0dd42-0b6b-434f-a297-d13830c7271f
+            subscription-id: 6becdafe-ebd7-4f46-984d-5afc7300c08c
+        - name: List resource group
+          uses: azure/CLI@v1
+          with:
+            inlineScript: |
+                az group show --name pkrtest-d-rg
